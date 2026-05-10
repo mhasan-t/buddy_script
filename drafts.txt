@@ -1,3 +1,5 @@
+THIS DRAFT IS WRITTEN BEFORE DEVELOPMENT TO NOTE DOWN TASKS
+
 Models
 1. users (
 	  id              UUID PRIMARY KEY,
@@ -64,4 +66,17 @@ Models
 	CREATE INDEX idx_reactions_target ON reactions(target_type, target_id);
 	CREATE INDEX idx_reactions_author ON reactions(author_id);
 	UNIQUE(author_id, target_type, target_id)
+	
+	
+TODO
+1. Authentication endpoints for JWT Auth
+2. User sign up, login.
+3. Show all recent public posts from everyone by latest one first, should also return latest 2 comments to show under post like facebook. Protected route. Use cursor for pagination. The response should be cached with TTL 30 secs.
+4. CRUD Posts with text and image. Protected route.
+5. CRUD comments and replies. Protected route. Read by all authenticated user but CUD by the author only. On create/delete, should update corresponding Post.comment_count or Comment.reply_count
+6. Get all comments under a post. Protected route. Read by all authenticated user but CUD by the author only. Cache TTL 10 seconds.
+7. React to a post or comment. Should update corresponding Post.reaction_count or Comment.reaction_count.
+
+
+
 
