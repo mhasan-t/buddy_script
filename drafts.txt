@@ -1,0 +1,70 @@
+Create models for Django REST Framework based on the models below. Use high level code quality, proper inheritence and readability. Don't write code comments.
+Think about inheritence before applying.
+
+Models
+1. users (
+	  id              UUID PRIMARY KEY,
+	  first_name      VARCHAR(100),
+	  last_name       VARCHAR(100),
+	  email           VARCHAR(255) UNIQUE NOT NULL,
+	  password_hash   TEXT NOT NULL,
+	  created_at      TIMESTAMP DEFAULT now()
+	)
+	CREATE UNIQUE INDEX idx_users_email ON users(email);
+2. Post
+	posts (
+	  id              UUID PRIMARY KEY,
+	  user_id        UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+
+	  content        TEXT,
+	  image_url      TEXT,
+
+	  is_public      BOOLEAN DEFAULT true,
+
+	  reaction_count     INT DEFAULT 0, // increase/decrease on reaction update
+	  comment_count  INT DEFAULT 0,
+
+	  created_at     TIMESTAMP DEFAULT now(),
+	  updated_at     TIMESTAMP DEFAULT now()
+	)
+	CREATE INDEX idx_posts_user_id ON posts(user_id);
+	CREATE INDEX idx_posts_public_created_at ON posts(is_public, created_at DESC);
+3. Comment
+	comments (
+	  id              UUID PRIMARY KEY,
+	  post_id        UUID NOT NULL REFERENCES posts(id) ON DELETE CASCADE,
+	  user_id        UUID NOT NULL REFERENCES users(id),
+
+	  parent_id      UUID NULL REFERENCES comments(id) ON DELETE CASCADE,
+
+	  content        TEXT NOT NULL,
+
+	  reaction_count     INT DEFAULT 0, // increase/decrease on reaction update
+
+	  created_at     TIMESTAMP DEFAULT now()
+	)
+	CREATE INDEX idx_comments_post_id ON comments(post_id);
+	CREATE INDEX idx_comments_parent_id ON comments(parent_id);
+	CREATE INDEX idx_comments_created_at ON comments(created_at DESC);
+
+4. Reaction
+	reactions (
+	  id            UUID PRIMARY KEY,
+
+	  author_id     UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+
+	  target_type   VARCHAR(20) NOT NULL, 
+	  -- 'post' | 'comment'
+
+	  target_id     UUID NOT NULL,
+
+	  reaction_type VARCHAR(20) DEFAULT 'like',
+
+	  created_at    TIMESTAMP DEFAULT now(),
+	  updated_at    TIMESTAMP DEFAULT now()
+	)
+	
+	CREATE INDEX idx_reactions_target ON reactions(target_type, target_id);
+	CREATE INDEX idx_reactions_author ON reactions(author_id);
+	UNIQUE(author_id, target_type, target_id)
+
