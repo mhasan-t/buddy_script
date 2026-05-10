@@ -5,9 +5,9 @@ from .post import Post
 
 
 class Comment(BaseModel):
-    post = models.ForeignKey(Post, on_delete=models.CASCADE)
+    post = models.ForeignKey(Post, related_name='comments', on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    parent = models.ForeignKey('self', null=True, blank=True, on_delete=models.CASCADE)
+    parent = models.ForeignKey('self', related_name='replies', null=True, blank=True, on_delete=models.CASCADE)
     content = models.TextField()
     reaction_count = models.IntegerField(default=0)
     reply_count = models.IntegerField(default=0)

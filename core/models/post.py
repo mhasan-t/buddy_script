@@ -10,7 +10,6 @@ class Post(BaseModel):
     is_public = models.BooleanField(default=True)
     reaction_count = models.IntegerField(default=0)
     comment_count = models.IntegerField(default=0)
-    updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
         db_table = 'posts'
