@@ -1,0 +1,177 @@
+# BuddyScript - Social Media API
+
+## Quick Start
+
+### 1. Setup Environment
+
+```bash
+cp .env.example .env
+# Edit .env with your database and Redis settings
+```
+
+### 2. Install Dependencies
+
+```bash
+pip install -r requirements.txt
+```
+
+### 3. Run Migrations
+
+```bash
+python manage.py migrate
+```
+
+### 4. Start Development Server
+
+```bash
+python manage.py runserver
+```
+
+### 5. Access the API
+
+- **API Endpoints**: http://localhost:8000/api/
+- **Swagger UI**: http://localhost:8000/api/docs/swagger/
+- **ReDoc**: http://localhost:8000/api/docs/redoc/
+
+## Project Structure
+
+```
+buddyscript/
+├── buddyscript/              # Main Django project
+│   ├── settings.py          # Configuration
+│   ├── urls.py              # Root URL routing
+│   ├── wsgi.py
+│   └── asgi.py
+├── core/                     # Core app
+│   ├── models/              # Data models
+│   │   ├── base.py
+│   │   ├── user.py
+│   │   ├── post.py
+│   │   ├── comment.py
+│   │   ├── reaction.py
+│   │   └── __init__.py
+│   ├── api/                 # API implementation
+│   │   ├── views.py         # ViewSets and Views
+│   │   ├── serializers.py   # DRF Serializers
+│   │   ├── urls.py          # API routing
+│   │   ├── permissions.py   # Custom permissions
+│   │   ├── pagination.py    # Pagination classes
+│   │   └── __init__.py
+│   ├── migrations/          # Django migrations
+│   └── admin.py
+├── manage.py
+├── requirements.txt
+├── .env.example
+├── API.md                   # API documentation
+└── test_api.py             # Test client
+```
+
+## API Routes
+
+### Authentication
+
+- `POST /api/auth/signup/` - Register new user
+- `POST /api/auth/login/` - Get access/refresh tokens
+- `POST /api/auth/refresh/` - Refresh access token
+
+### Posts
+
+- `GET /api/posts/recent/` - Get recent public posts with comments (cached 30s)
+- `GET /api/posts/` - List user's posts
+- `GET /api/posts/{id}/` - Retrieve post
+- `POST /api/posts/` - Create post
+- `PATCH /api/posts/{id}/` - Update post (author only)
+- `DELETE /api/posts/{id}/` - Delete post (author only)
+
+### Comments
+
+- `GET /api/posts/{post_id}/comments/` - Get post comments (cached 10s)
+- `GET /api/comments/` - List all comments
+- `GET /api/comments/{id}/` - Retrieve comment
+- `POST /api/comments/` - Create comment or reply
+- `PATCH /api/comments/{id}/` - Update comment (author only)
+- `DELETE /api/comments/{id}/` - Delete comment (author only)
+
+### Reactions
+
+- `POST /api/reactions/` - Create/update reaction
+- `DELETE /api/reactions/{id}/` - Delete reaction
+
+## Testing
+
+Run the comprehensive API test client:
+
+```bash
+python test_api.py
+```
+
+This will:
+
+1. Sign up a new user
+2. Log in and get JWT tokens
+3. Create a post
+4. Get recent posts
+5. Add comments and replies
+6. Add reactions
+7. Verify counts are updated
+
+## Database Models
+
+### User
+
+- UUID primary key
+- Email (unique)
+- First/Last name
+- Django auth fields (password, is_staff, is_active, etc.)
+- Timestamps
+
+### Post
+
+- UUID primary key
+- User (ForeignKey with CASCADE)
+- Content (text)
+- Image URL
+- Public/private flag
+- Reaction count
+- Comment count
+- Timestamps with indexes on user, public status, and creation date
+
+### Comment
+
+- UUID primary key
+- Post (ForeignKey with CASCADE)
+- User (ForeignKey)
+- Parent (self-ForeignKey for replies, null for top-level)
+- Content (required text)
+- Reaction count
+- Reply count
+- Indexes on post, parent, and creation date
+
+### Reaction
+
+- UUID primary key
+- Author (User ForeignKey with CASCADE)
+- Content Type (for polymorphic relations)
+- Object ID (UUID)
+- Reaction type (default: "like")
+- Timestamps
+- Unique constraint: (author, content_type, object_id)
+
+## Development
+
+### Create Superuser
+
+```bash
+python manage.py createsuperuser
+```
+
+### Access Admin Panel
+
+http://localhost:8000/admin/
+
+### Make Migrations After Model Changes
+
+```bash
+python manage.py makemigrations
+python manage.py migrate
+```
