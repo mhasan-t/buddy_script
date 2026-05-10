@@ -1,0 +1,22 @@
+info:
+  name: Delete Post
+  type: http
+  seq: 9
+
+http:
+  method: DELETE
+  url: http://127.0.0.1:8000/api/posts/52768e4e-6f94-40c6-b765-123b627cdf62/
+  headers:
+    - name: Authorization
+      value: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzc4NDIwNjE5LCJpYXQiOjE3Nzg0MjAzMTksImp0aSI6IjVlZGRlZTY1MzY0YjQ3YTE4NWI4ZTM2Njg3MTY0ODI2IiwidXNlcl9pZCI6IjU2OTgwMzJhLTQ4N2ItNDYwMi1iMzRhLWFmZTk5MmFlN2QwOCJ9.Dgff3QXrZtWqbzaCx74KlbsdI0JdRLeB9xaPGfCzpAE
+      disabled: true
+  body:
+    type: json
+    data: ""
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

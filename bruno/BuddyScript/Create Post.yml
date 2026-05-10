@@ -1,0 +1,26 @@
+info:
+  name: Create Post
+  type: http
+  seq: 4
+
+http:
+  method: POST
+  url: http://127.0.0.1:8000/api/posts/
+  headers:
+    - name: Authorization
+      value: Bearer {{access_token}}
+      disabled: true
+  body:
+    type: json
+    data: |-
+      {
+        "content": "This is content",
+         "is_public": true
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

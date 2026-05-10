@@ -1,0 +1,27 @@
+info:
+  name: Create Comment
+  type: http
+  seq: 10
+
+http:
+  method: POST
+  url: http://127.0.0.1:8000/api/comments/
+  headers:
+    - name: Authorization
+      value: Bearer {{access_token}}
+      disabled: true
+  body:
+    type: json
+    data: |-
+      {
+        "post": "7ec00d87-f7fe-41c5-9749-68509a71fe7a",
+        "parent": "c834070e-14f5-4482-8d64-bd0cb45bd643",
+        "content": "This reply was made from bruno"
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

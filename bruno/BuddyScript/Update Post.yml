@@ -1,0 +1,25 @@
+info:
+  name: Update Post
+  type: http
+  seq: 5
+
+http:
+  method: PATCH
+  url: http://127.0.0.1:8000/api/posts/52768e4e-6f94-40c6-b765-123b627cdf62/
+  headers:
+    - name: Authorization
+      value: Bearer {{access_token}}
+      disabled: true
+  body:
+    type: json
+    data: |-
+      {
+        "content": "This was updated for real this time"
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
