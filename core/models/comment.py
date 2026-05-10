@@ -10,6 +10,7 @@ class Comment(BaseModel):
     parent = models.ForeignKey('self', null=True, blank=True, on_delete=models.CASCADE)
     content = models.TextField()
     reaction_count = models.IntegerField(default=0)
+    reply_count = models.IntegerField(default=0)
 
     class Meta:
         db_table = 'comments'
