@@ -46,8 +46,8 @@ class ReactionViewSet(
                 reaction.reaction_type = reaction_type
                 reaction.save(update_fields=["reaction_type", "updated_at"])
 
-        headers = self.get_success_headers(serializer.data)
         response_serializer = self.get_serializer(reaction)
+        headers = self.get_success_headers(response_serializer.data)
         return Response(
             response_serializer.data,
             status=status.HTTP_201_CREATED if created else status.HTTP_200_OK,

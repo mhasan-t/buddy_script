@@ -9,17 +9,30 @@ class Reaction(BaseModel):
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
     object_id = models.UUIDField()
-    content_object = GenericForeignKey('content_type', 'object_id')
-    reaction_type = models.CharField(max_length=20, default='like')
+    content_object = GenericForeignKey("content_type", "object_id")
     updated_at = models.DateTimeField(auto_now=True)
 
+    # can add more reactions later
+    LIKE = "like"
+    REACTION_TYPES = [
+        (LIKE, "Like"),
+    ]
+    reaction_type = models.CharField(
+        max_length=20,
+        choices=REACTION_TYPES,
+        default=LIKE,
+    )
+
     class Meta:
-        db_table = 'reactions'
+        db_table = "reactions"
         indexes = [
-            models.Index(fields=['content_type', 'object_id']),
-            models.Index(fields=['author']),
+            models.Index(fields=["content_type", "object_id"]),
+            models.Index(fields=["author"]),
         ]
-        unique_together = ('author', 'content_type', 'object_id')
+        unique_together = ("author", "content_type", "object_id")
 
     def __repr__(self):
-        return super().__repr__() + f" (author_id={self.author_id}, content_type_id={self.content_type_id}, object_id={self.object_id}, reaction_type={self.reaction_type})"
+        return (
+            super().__repr__()
+            + f" (author_id={self.author_id}, content_type_id={self.content_type_id}, object_id={self.object_id}, reaction_type={self.reaction_type})"
+        )

@@ -2,7 +2,7 @@ from django.db.models import Q
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_page
 from rest_framework import generics, permissions, viewsets
-from ..pagination import RecentPostCursorPagination
+from ..pagination import CustomCursorPagination
 from ..permissions import IsAuthorOrReadOnly
 from ..serializers import (
     CommentSerializer,
@@ -16,7 +16,7 @@ from ..models import Comment, Post
 class PublicPostListView(generics.ListAPIView):
     serializer_class = PostWithCommentsSerializer
     permission_classes = [permissions.IsAuthenticated]
-    pagination_class = RecentPostCursorPagination
+    pagination_class = CustomCursorPagination
 
     def get_queryset(self):
         return (
@@ -30,6 +30,7 @@ class PublicPostListView(generics.ListAPIView):
 class PostViewSet(viewsets.ModelViewSet):
     serializer_class = PostSerializer
     permission_classes = [permissions.IsAuthenticated, IsAuthorOrReadOnly]
+    pagination_class = CustomCursorPagination
 
     def get_queryset(self):
         if self.action == "list":
@@ -52,6 +53,7 @@ class PostViewSet(viewsets.ModelViewSet):
 class PostCommentsListAPIView(generics.ListAPIView):
     serializer_class = CommentSerializer
     permission_classes = [permissions.IsAuthenticated]
+    pagination_class = CustomCursorPagination
 
     def get_queryset(self):
         return (
