@@ -1,6 +1,3 @@
-Create models for Django REST Framework based on the models below. Use high level code quality, proper inheritence and readability. Don't write code comments.
-Think about inheritence before applying.
-
 Models
 1. users (
 	  id              UUID PRIMARY KEY,
