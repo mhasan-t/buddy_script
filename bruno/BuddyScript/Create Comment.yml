@@ -14,8 +14,7 @@ http:
     type: json
     data: |-
       {
-        "post": "7ec00d87-f7fe-41c5-9749-68509a71fe7a",
-        "parent": "c834070e-14f5-4482-8d64-bd0cb45bd643",
+        "post": "bde11a0c-7efd-4c1d-a676-2465324e0d87",
         "content": "This reply was made from bruno"
       }
   auth: inherit

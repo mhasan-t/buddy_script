@@ -17,7 +17,7 @@ config:
 request:
   auth:
     type: bearer
-    token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzc4NDgwNTM0LCJpYXQiOjE3Nzg0MjA1OTQsImp0aSI6IjlkZjA1OGVjMDQwMDRjZWE5NGQ5MmIxZTlkMmUwNjYyIiwidXNlcl9pZCI6IjU2OTgwMzJhLTQ4N2ItNDYwMi1iMzRhLWFmZTk5MmFlN2QwOCJ9.eM5UjUOuNmwJCr5Iu3MWTUMI2D2tZcZeOoxZcylhkDI
+    token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzc4Njg3MjMyLCJpYXQiOjE3Nzg2MjcyOTIsImp0aSI6ImFlMGU3ZGJkZGZjMDQyZGZhMjAzNjY4NjE4Yjc4NGViIiwidXNlcl9pZCI6IjdhODk5OTdlLTNlMTctNDFjMS04ZDY4LTZiZjY1ZjBiMzgyZSJ9.lqizKvV9vFeTxCBYKqQgBAQZUsR9pFXjvrSmZZaWq6A
   variables:
     - name: ""
       value: ""
