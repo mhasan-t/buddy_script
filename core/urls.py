@@ -11,6 +11,7 @@ from .views import (
     RefreshTokenView,
     LogoutView,
     LogoutAllView,
+    UserMeView,
     ReactionViewSet,
 )
 
@@ -25,6 +26,7 @@ urlpatterns = [
     path("auth/refresh/", RefreshTokenView.as_view(), name="token_refresh"),
     path("auth/logout/", LogoutView.as_view(), name="logout"),
     path("auth/logout-all/", LogoutAllView.as_view(), name="logout_all"),
+    path("user/me/", UserMeView.as_view(), name="user-me"),
     path("posts/recent/", PublicPostListView.as_view(), name="public-post-list"),
     path(
         "posts/<uuid:post_pk>/comments/",

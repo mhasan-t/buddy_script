@@ -1,0 +1,21 @@
+info:
+  name: Me
+  type: http
+  seq: 13
+
+http:
+  method: POST
+  url: http://127.0.0.1:8000/api/auth/login/
+  body:
+    type: json
+    data: |-
+      {
+        "email": "user@example.com",
+        "password": "password123"
+      }
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

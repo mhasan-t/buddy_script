@@ -10,6 +10,7 @@ from rest_framework_simplejwt.tokens import RefreshToken
 
 from ..models import RefreshTokenRecord
 from ..serializers import (
+    AuthorSerializer,
     UserRegistrationSerializer,
 )
 
@@ -217,3 +218,11 @@ class LogoutAllView(APIView):
         response.delete_cookie("access_token", path="/")
         response.delete_cookie("refresh_token", path="/")
         return response
+
+
+class UserMeView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get(self, request):
+        serializer = AuthorSerializer(request.user)
+        return Response(serializer.data)

@@ -4,6 +4,7 @@ from .user_views import (
     RefreshTokenView,
     LogoutView,
     LogoutAllView,
+    UserMeView,
 )
 from .posts_views import (
     PostViewSet,
@@ -20,6 +21,7 @@ __all__ = [
     "RefreshTokenView",
     "LogoutView",
     "LogoutAllView",
+    "UserMeView",
     "PostViewSet",
     "PublicPostListView",
     "PostCommentsListAPIView",
