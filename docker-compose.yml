@@ -7,17 +7,38 @@ services:
             POSTGRES_DB: buddy_db
             POSTGRES_USER: buddy_user
             POSTGRES_PASSWORD: buddy_pass
-        ports:
-            - "5432:5432"
         volumes:
             - postgres_data:/var/lib/postgresql/data
+        # No ports exposed to host for security
 
     redis:
         image: redis:7-alpine
         container_name: redis_cache
-        ports:
-            - "6379:6379"
         restart: always
+        # No ports exposed to host for security
+
+    web:
+        build:
+            context: ./backend # Path to your folder with the Dockerfile
+        container_name: django_app
+        restart: always
+        command: gunicorn your_project_name.wsgi:application --bind 0.0.0.0:8000
+        environment:
+            - .env
+        depends_on:
+            - db
+            - redis
+
+    nginx:
+        image: nginx:alpine
+        container_name: nginx_server
+        ports:
+            - "80:80"
+        volumes:
+            - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+            - ./static:/app/static # Ensure you run collectstatic
+        depends_on:
+            - web
 
 volumes:
     postgres_data:
