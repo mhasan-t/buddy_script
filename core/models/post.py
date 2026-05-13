@@ -6,16 +6,17 @@ from .user import User
 class Post(BaseModel):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     content = models.TextField(blank=True)
+    image = models.ImageField(upload_to="posts/", blank=True, null=True)
     image_url = models.URLField(blank=True)
     is_public = models.BooleanField(default=True)
     reaction_count = models.IntegerField(default=0)
     comment_count = models.IntegerField(default=0)
 
     class Meta:
-        db_table = 'posts'
+        db_table = "posts"
         indexes = [
-            models.Index(fields=['user']),
-            models.Index(fields=['is_public', '-created_at']),
+            models.Index(fields=["user"]),
+            models.Index(fields=["is_public", "-created_at"]),
         ]
 
     def __repr__(self):
