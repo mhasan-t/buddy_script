@@ -15,10 +15,6 @@ RUN apt-get update && apt-get install -y \
     gcc \
     && rm -rf /var/lib/apt/lists/*
 
-# 5. Python Dependencies
-# Install setuptools first for Python 3.13 compatibility
-RUN pip install --no-cache-dir setuptools
-
 COPY requirements.txt /app/
 RUN pip install --no-cache-dir -r requirements.txt
 
