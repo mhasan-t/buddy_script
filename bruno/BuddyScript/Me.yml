@@ -4,8 +4,8 @@ info:
   seq: 13
 
 http:
-  method: POST
-  url: http://127.0.0.1:8000/api/auth/login/
+  method: GET
+  url: http://127.0.0.1:8000/api/user/me
   body:
     type: json
     data: |-

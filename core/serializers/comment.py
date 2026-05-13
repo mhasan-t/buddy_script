@@ -62,4 +62,10 @@ class CommentSerializer(serializers.ModelSerializer):
             content_type=content_type,
             object_id=obj.id,
         ).first()
-        return reaction.reaction_type if reaction else None
+        if not reaction:
+            return None
+
+        return {
+            "id": reaction.id,
+            "reaction_type": reaction.reaction_type,
+        }

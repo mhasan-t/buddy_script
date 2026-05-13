@@ -10,8 +10,8 @@ http:
     type: json
     data: |-
       {
-        "email": "user@example.com",
-        "password": "password123"
+        "email": "client@next.js",
+        "password": "1234next"
       }
 
 settings:
