@@ -8,6 +8,16 @@ from ..serializers import (
     CommentSerializer,
 )
 from ..models import Comment, Post
+from django.db.models import Q
+from django.utils.decorators import method_decorator
+from django.views.decorators.cache import cache_page
+from rest_framework import generics, permissions, viewsets
+from ..pagination import PlainCursorPagination
+from ..permissions import IsAuthorOrReadOnly
+from ..serializers import (
+    CommentSerializer,
+)
+from ..models import Comment, Post
 
 
 class CommentViewSet(viewsets.ModelViewSet):
@@ -53,3 +63,18 @@ class CommentViewSet(viewsets.ModelViewSet):
                 Post.objects.filter(pk=target).update(
                     comment_count=F("comment_count") - 1
                 )
+
+
+@method_decorator(cache_page(10), name="dispatch")
+class CommentRepliesListAPIView(generics.ListAPIView):
+    serializer_class = CommentSerializer
+    permission_classes = [permissions.IsAuthenticated]
+    pagination_class = PlainCursorPagination
+
+    def get_queryset(self):
+        return (
+            Comment.objects.filter(parent_id=self.kwargs["comment_pk"])
+            .select_related("user", "parent", "post")
+            .filter(Q(post__is_public=True) | Q(user=self.request.user))
+            .order_by("created_at")
+        )

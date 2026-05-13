@@ -64,22 +64,7 @@ class PostCommentsListAPIView(generics.ListAPIView):
 
     def get_queryset(self):
         return (
-            Comment.objects.filter(post_id=self.kwargs["post_pk"])
+            Comment.objects.filter(post_id=self.kwargs["post_pk"], parent__isnull=True)
             .select_related("user", "parent")
-            .order_by("created_at")
-        )
-
-
-@method_decorator(cache_page(10), name="dispatch")
-class CommentRepliesListAPIView(generics.ListAPIView):
-    serializer_class = CommentSerializer
-    permission_classes = [permissions.IsAuthenticated]
-    pagination_class = PlainCursorPagination
-
-    def get_queryset(self):
-        return (
-            Comment.objects.filter(parent_id=self.kwargs["comment_pk"])
-            .select_related("user", "parent", "post")
-            .filter(Q(post__is_public=True) | Q(user=self.request.user))
             .order_by("created_at")
         )

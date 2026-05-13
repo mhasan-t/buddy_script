@@ -10,9 +10,8 @@ from .posts_views import (
     PostViewSet,
     PublicPostListView,
     PostCommentsListAPIView,
-    CommentRepliesListAPIView,
 )
-from .comment_views import CommentViewSet
+from .comment_views import CommentViewSet, CommentRepliesListAPIView
 from .reaction_views import ReactionViewSet
 
 __all__ = [

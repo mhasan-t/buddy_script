@@ -57,4 +57,4 @@ class PostWithCommentsSerializer(PostSerializer):
 
     def get_latest_comments(self, obj):
         comments = obj.comments.filter(parent__isnull=True).order_by("-created_at")[:2]
-        return CommentSerializer(comments, many=True).data
+        return CommentSerializer(comments, many=True, context=self.context).data
