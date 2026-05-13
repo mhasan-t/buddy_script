@@ -1,29 +1,32 @@
-# Use a slim version of Python for smaller image size
+# 1. Base Image
 FROM python:3.13-slim
 
-# Set environment variables to prevent Python from writing .pyc files
-# and to ensure output is sent straight to the terminal
+# 2. Environment Variables
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 
-# Set the working directory inside the container
+# 3. Working Directory
 WORKDIR /app
 
-# Install system dependencies for Postgres (psycopg2)
+# 4. System Dependencies
+# Only run this once to keep the image slim
 RUN apt-get update && apt-get install -y \
     libpq-dev \
     gcc \
     && rm -rf /var/lib/apt/lists/*
 
-# Install Python dependencies
+# 5. Python Dependencies
+# Install setuptools first for Python 3.13 compatibility
+RUN pip install --no-cache-dir setuptools
+
 COPY requirements.txt /app/
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy the rest of your Django project code
+# 6. Copy Project Code
 COPY . /app/
 
-# Expose the port Gunicorn will run on
+# 7. Final Polish
 EXPOSE 8000
 
-# Start Gunicorn
-CMD ["gunicorn", "--bind", "0.0.0.0:8000", "my_project.wsgi:application"]
+# IMPORTANT: Ensure 'buddy_script' matches your project folder name!
+CMD ["gunicorn", "--bind", "0.0.0.0:8000", "buddy_script.wsgi:application"]
