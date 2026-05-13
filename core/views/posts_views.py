@@ -56,7 +56,7 @@ class PostViewSet(viewsets.ModelViewSet):
             PostImage.objects.create(post=post, image=image_file)
 
 
-@method_decorator(cache_page(10), name="dispatch")
+# @method_decorator(cache_page(10), name="dispatch")
 class PostCommentsListAPIView(generics.ListAPIView):
     serializer_class = CommentSerializer
     permission_classes = [permissions.IsAuthenticated]
@@ -68,3 +68,8 @@ class PostCommentsListAPIView(generics.ListAPIView):
             .select_related("user", "parent")
             .order_by("created_at")
         )
+
+    def dispatch(self, request, *args, **kwargs):
+        if not request.GET.get("cursor"):
+            return cache_page(10)(super().dispatch)(request, *args, **kwargs)
+        return super().dispatch(request, *args, **kwargs)
