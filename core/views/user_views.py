@@ -22,8 +22,8 @@ def set_jwt_cookies(response, refresh_token, access_token):
         value=str(refresh_token),
         max_age=settings.SIMPLE_JWT["REFRESH_TOKEN_LIFETIME"].total_seconds(),
         httponly=True,
-        secure=not settings.DEBUG,  # Only secure in production
-        samesite="Lax",
+        secure=not settings.DEBUG,
+        samesite="None",
         path="/",
     )
     response.set_cookie(
@@ -32,7 +32,7 @@ def set_jwt_cookies(response, refresh_token, access_token):
         max_age=settings.SIMPLE_JWT["ACCESS_TOKEN_LIFETIME"].total_seconds(),
         httponly=True,
         secure=not settings.DEBUG,
-        samesite="Lax",
+        samesite="None",
         path="/",
     )
     return response
