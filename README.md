@@ -15,19 +15,25 @@ cp .env.example .env
 pip install -r requirements.txt
 ```
 
-### 3. Run Migrations
+### 3. Run docker containers
+
+```
+docker compose -d up
+```
+
+### 4. Run Migrations
 
 ```bash
 python manage.py migrate
 ```
 
-### 4. Start Development Server
+### 5. Start Development Server
 
 ```bash
 python manage.py runserver
 ```
 
-### 5. Access the API
+### 6. Access the API
 
 - **API Endpoints**: http://localhost:8000/api/
 - **Swagger UI**: http://localhost:8000/api/docs/swagger/
