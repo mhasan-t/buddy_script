@@ -38,32 +38,43 @@ python manage.py runserver
 ```
 buddyscript/
 ├── buddyscript/              # Main Django project
-│   ├── settings.py          # Configuration
-│   ├── urls.py              # Root URL routing
+│   ├── settings.py           # Configuration
+│   ├── urls.py               # Root URL routing
 │   ├── wsgi.py
 │   └── asgi.py
 ├── core/                     # Core app
-│   ├── models/              # Data models
+│   ├── models/               # Data models
 │   │   ├── base.py
 │   │   ├── user.py
 │   │   ├── post.py
 │   │   ├── comment.py
 │   │   ├── reaction.py
+│   │   ├── refresh_token_record.py
+│   │   ├── post_image.py
 │   │   └── __init__.py
-│   ├── api/                 # API implementation
-│   │   ├── views.py         # ViewSets and Views
-│   │   ├── serializers.py   # DRF Serializers
-│   │   ├── urls.py          # API routing
-│   │   ├── permissions.py   # Custom permissions
-│   │   ├── pagination.py    # Pagination classes
+│   ├── serializers/          # DRF serializers
+│   │   ├── user.py
+│   │   ├── post.py
+│   │   ├── comment.py
+│   │   ├── reaction.py
+│   │   ├── post_image.py
 │   │   └── __init__.py
-│   ├── migrations/          # Django migrations
+│   ├── views/                # API views and viewsets
+│   │   ├── user_views.py
+│   │   ├── posts_views.py
+│   │   ├── comment_views.py
+│   │   ├── reaction_views.py
+│   │   └── __init__.py
+│   ├── urls.py               # API routing
+│   ├── permissions.py        # Custom permissions
+│   ├── pagination.py         # Pagination classes
+│   ├── migrations/           # Django migrations
 │   └── admin.py
 ├── manage.py
 ├── requirements.txt
 ├── .env.example
-├── API.md                   # API documentation
-└── test_api.py             # Test client
+├── API.md                    # API documentation
+└── test_api.py               # Test client
 ```
 
 ## API Routes
@@ -71,31 +82,35 @@ buddyscript/
 ### Authentication
 
 - `POST /api/auth/signup/` - Register new user
-- `POST /api/auth/login/` - Get access/refresh tokens
+- `POST /api/auth/login/` - Get access and refresh tokens
 - `POST /api/auth/refresh/` - Refresh access token
+- `POST /api/auth/logout/` - Revoke current refresh token
+- `POST /api/auth/logout-all/` - Revoke all refresh tokens for the user
+- `GET /api/user/me/` - Retrieve current authenticated user
 
 ### Posts
 
-- `GET /api/posts/recent/` - Get recent public posts with comments (cached 30s)
-- `GET /api/posts/` - List user's posts
-- `GET /api/posts/{id}/` - Retrieve post
-- `POST /api/posts/` - Create post
-- `PATCH /api/posts/{id}/` - Update post (author only)
-- `DELETE /api/posts/{id}/` - Delete post (author only)
+- `GET /api/posts/recent/` - Get recent public posts with comments (cached 10s)
+- `GET /api/posts/` - List authenticated user's posts
+- `GET /api/posts/{id}/` - Retrieve a post
+- `POST /api/posts/` - Create a post
+- `PATCH /api/posts/{id}/` - Update a post (author only)
+- `DELETE /api/posts/{id}/` - Delete a post (author only)
 
 ### Comments
 
-- `GET /api/posts/{post_id}/comments/` - Get post comments (cached 10s)
+- `GET /api/posts/{post_id}/comments/` - Get top-level comments for a post (cached 3s when no cursor)
 - `GET /api/comments/` - List all comments
-- `GET /api/comments/{id}/` - Retrieve comment
-- `POST /api/comments/` - Create comment or reply
-- `PATCH /api/comments/{id}/` - Update comment (author only)
-- `DELETE /api/comments/{id}/` - Delete comment (author only)
+- `GET /api/comments/{id}/` - Retrieve a comment
+- `POST /api/comments/` - Create a comment or reply
+- `PATCH /api/comments/{id}/` - Update a comment (author only)
+- `DELETE /api/comments/{id}/` - Delete a comment (author only)
+- `GET /api/comments/{comment_id}/replies/` - List replies to a comment
 
 ### Reactions
 
-- `POST /api/reactions/` - Create/update reaction
-- `DELETE /api/reactions/{id}/` - Delete reaction
+- `POST /api/reactions/` - Create or update a reaction
+- `DELETE /api/reactions/{id}/` - Delete a reaction
 
 ## Testing
 
