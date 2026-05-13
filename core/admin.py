@@ -1,4 +1,6 @@
 from django.contrib import admin
+
+from .models.post_image import PostImage
 from .models.user import User
 from .models.post import Post
 from .models.comment import Comment
@@ -8,4 +10,4 @@ admin.site.register(User)
 admin.site.register(Post)
 admin.site.register(Comment)
 admin.site.register(Reaction)
-
+admin.site.register(PostImage)

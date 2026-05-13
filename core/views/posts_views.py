@@ -9,7 +9,7 @@ from ..serializers import (
     PostSerializer,
     PostWithCommentsSerializer,
 )
-from ..models import Comment, Post
+from ..models import Comment, Post, PostImage
 
 
 @method_decorator(cache_page(30), name="dispatch")
@@ -22,7 +22,7 @@ class PublicPostListView(generics.ListAPIView):
         return (
             Post.objects.filter(is_public=True)
             .select_related("user")
-            .prefetch_related("comments__user")
+            .prefetch_related("comments__user", "images")
             .order_by("-created_at")
         )
 
@@ -37,16 +37,23 @@ class PostViewSet(viewsets.ModelViewSet):
             return (
                 Post.objects.filter(user=self.request.user)
                 .select_related("user")
+                .prefetch_related("images")
                 .order_by("-created_at")
             )
         return (
             Post.objects.filter(Q(is_public=True) | Q(user=self.request.user))
             .select_related("user")
+            .prefetch_related("images")
             .order_by("-created_at")
         )
 
     def perform_create(self, serializer):
-        serializer.save(user=self.request.user)
+        post = serializer.save(user=self.request.user)
+
+        # Handle image uploads
+        uploaded_images = self.request.FILES.getlist("images")
+        for image_file in uploaded_images:
+            PostImage.objects.create(post=post, image=image_file)
 
 
 @method_decorator(cache_page(10), name="dispatch")
