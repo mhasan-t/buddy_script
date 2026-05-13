@@ -16,6 +16,7 @@ from dotenv import load_dotenv
 from datetime import timedelta
 
 load_dotenv()
+DEBUG = True
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -26,10 +27,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-fm#a%y27th^50ppp4+#1w1d%*%4u+d3^wpj-^tp6yk#&-r7w6u"
+SECRET_KEY = (
+    "django-insecure-fm#a%y27th^50ppp4+#1w1d%*%4u+d3^wpj-^tp6yk#&-r7w6u"
+    if DEBUG
+    else os.getenv("SECRET_KEY")
+)
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
 
 ALLOWED_HOSTS = []
 # APPEND_SLASH = False
