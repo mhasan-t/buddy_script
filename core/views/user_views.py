@@ -10,7 +10,7 @@ from rest_framework_simplejwt.tokens import RefreshToken
 
 from ..models import RefreshTokenRecord
 from ..serializers import (
-    AuthorSerializer,
+    UserSerializer,
     UserRegistrationSerializer,
 )
 
@@ -224,5 +224,5 @@ class UserMeView(APIView):
     permission_classes = [permissions.IsAuthenticated]
 
     def get(self, request):
-        serializer = AuthorSerializer(request.user)
+        serializer = UserSerializer(request.user)
         return Response(serializer.data)

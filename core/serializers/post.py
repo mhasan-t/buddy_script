@@ -1,12 +1,12 @@
 from rest_framework import serializers
 from ..models import Post
-from .user import AuthorSerializer
+from .user import UserSerializer
 from .comment import LatestCommentSerializer
 from .post_image import PostImageSerializer
 
 
 class PostSerializer(serializers.ModelSerializer):
-    user = AuthorSerializer(read_only=True)
+    user = UserSerializer(read_only=True)
     images = PostImageSerializer(many=True, read_only=True)
 
     class Meta:
