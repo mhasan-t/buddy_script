@@ -5,14 +5,14 @@ info:
 
 http:
   method: POST
-  url: http://16.176.29.31/api/auth/signup/
+  url: http://buddyscript.duckdns.org/api/auth/signup/
   body:
     type: json
     data: |-
       {
         "first_name": "Bruno",
         "last_name": "Al Hasan",
-        "email": "user@example.com",
+        "email": "user2@example.com",
         "password": "password123"
       }
 
