@@ -43,7 +43,6 @@ services:
             - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
             - static_volume:/app/staticfiles
             - media_volume:/app/media
-            - ./nginx/conf.d/:/etc/nginx/conf.d/
             - /var/certbot/conf:/etc/letsencrypt/:ro
             - /var/certbot/www/:/var/www/certbot/:ro
         depends_on:
