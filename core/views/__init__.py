@@ -5,7 +5,12 @@ from .user_views import (
     LogoutView,
     LogoutAllView,
 )
-from .posts_views import PostViewSet, PublicPostListView, PostCommentsListAPIView
+from .posts_views import (
+    PostViewSet,
+    PublicPostListView,
+    PostCommentsListAPIView,
+    CommentRepliesListAPIView,
+)
 from .comment_views import CommentViewSet
 from .reaction_views import ReactionViewSet
 
@@ -18,6 +23,7 @@ __all__ = [
     "PostViewSet",
     "PublicPostListView",
     "PostCommentsListAPIView",
+    "CommentRepliesListAPIView",
     "CommentViewSet",
     "ReactionViewSet",
 ]

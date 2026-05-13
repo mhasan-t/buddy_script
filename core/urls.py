@@ -2,6 +2,7 @@ from django.urls import include, path
 from rest_framework.routers import DefaultRouter
 from .views import (
     CommentViewSet,
+    CommentRepliesListAPIView,
     PostCommentsListAPIView,
     PostViewSet,
     PublicPostListView,
@@ -29,6 +30,11 @@ urlpatterns = [
         "posts/<uuid:post_pk>/comments/",
         PostCommentsListAPIView.as_view(),
         name="post-comments",
+    ),
+    path(
+        "comments/<uuid:comment_pk>/replies/",
+        CommentRepliesListAPIView.as_view(),
+        name="comment-replies",
     ),
     path("", include(router.urls)),
 ]
