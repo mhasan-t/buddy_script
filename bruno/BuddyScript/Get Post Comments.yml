@@ -5,7 +5,7 @@ info:
 
 http:
   method: GET
-  url: http://127.0.0.1:8000/api/posts/7ec00d87-f7fe-41c5-9749-68509a71fe7a/comments/
+  url: http://127.0.0.1:8000/api/posts/6bf546e7-9f1c-4008-b2c2-920038e6be29/comments/
   headers:
     - name: Authorization
       value: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzc4NDIwNjE5LCJpYXQiOjE3Nzg0MjAzMTksImp0aSI6IjVlZGRlZTY1MzY0YjQ3YTE4NWI4ZTM2Njg3MTY0ODI2IiwidXNlcl9pZCI6IjU2OTgwMzJhLTQ4N2ItNDYwMi1iMzRhLWFmZTk5MmFlN2QwOCJ9.Dgff3QXrZtWqbzaCx74KlbsdI0JdRLeB9xaPGfCzpAE

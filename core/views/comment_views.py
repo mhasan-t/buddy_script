@@ -2,7 +2,7 @@ from django.db import transaction
 from django.db.models import F, Q
 from rest_framework import permissions, viewsets
 
-from core.pagination import CustomCursorPagination
+from core.pagination import PlainCursorPagination
 from ..permissions import IsAuthorOrReadOnly
 from ..serializers import (
     CommentSerializer,
@@ -13,7 +13,7 @@ from ..models import Comment, Post
 class CommentViewSet(viewsets.ModelViewSet):
     serializer_class = CommentSerializer
     permission_classes = [permissions.IsAuthenticated, IsAuthorOrReadOnly]
-    pagination_class = CustomCursorPagination
+    pagination_class = PlainCursorPagination
 
     def get_queryset(self):
         queryset = Comment.objects.select_related("user", "post", "parent").order_by(
