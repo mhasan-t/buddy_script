@@ -5,12 +5,12 @@ info:
 
 http:
   method: POST
-  url: http://127.0.0.1:8000/api/auth/signup/
+  url: http://16.176.29.31/api/auth/signup/
   body:
     type: json
     data: |-
       {
-        "first_name": "Muhib",
+        "first_name": "Bruno",
         "last_name": "Al Hasan",
         "email": "user@example.com",
         "password": "password123"

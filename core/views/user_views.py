@@ -74,18 +74,20 @@ class UserRegistrationView(generics.CreateAPIView):
     permission_classes = [permissions.AllowAny]
 
     def create(self, request, *args, **kwargs):
-        response = super().create(request, *args, **kwargs)
-        if response.status_code == status.HTTP_201_CREATED:
-            # Generate tokens for the newly created user
-            user = self.get_serializer().instance
-            refresh = RefreshToken.for_user(user)
-            access = refresh.access_token
-            device_info = request.META.get("HTTP_USER_AGENT", "")
-            _build_refresh_token_record(refresh, user, device_info=device_info)
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        user = serializer.save()
 
-            # Set cookies instead of returning tokens in response
-            response = set_jwt_cookies(response, refresh, access)
-        return response
+        refresh = RefreshToken.for_user(user)
+        access = refresh.access_token
+
+        device_info = request.META.get("HTTP_USER_AGENT", "")
+        _build_refresh_token_record(refresh, user, device_info=device_info)
+
+        response_data = {"user": UserSerializer(user).data}
+
+        response = Response(response_data, status=status.HTTP_201_CREATED)
+        return set_jwt_cookies(response, refresh, access)
 
 
 class LoginView(APIView):
