@@ -1,4 +1,7 @@
 from rest_framework import serializers
+from django.contrib.contenttypes.models import ContentType
+
+from core.models.reaction import Reaction
 from ..models import Comment
 from .user import UserSerializer
 
@@ -13,6 +16,7 @@ class LatestCommentSerializer(serializers.ModelSerializer):
 
 class CommentSerializer(serializers.ModelSerializer):
     user = UserSerializer(read_only=True)
+    user_reaction = serializers.SerializerMethodField()
 
     class Meta:
         model = Comment
@@ -23,6 +27,7 @@ class CommentSerializer(serializers.ModelSerializer):
             "user",
             "content",
             "reaction_count",
+            "user_reaction",
             "reply_count",
             "created_at",
             "updated_at",
@@ -31,6 +36,7 @@ class CommentSerializer(serializers.ModelSerializer):
             "id",
             "user",
             "reaction_count",
+            "user_reaction",
             "reply_count",
             "created_at",
             "updated_at",
@@ -44,3 +50,16 @@ class CommentSerializer(serializers.ModelSerializer):
                 "Parent comment must belong to the same post."
             )
         return attrs
+
+    def get_user_reaction(self, obj):
+        request = self.context.get("request")
+        if not request or request.user.is_anonymous:
+            return None
+
+        content_type = ContentType.objects.get_for_model(Comment)
+        reaction = Reaction.objects.filter(
+            author=request.user,
+            content_type=content_type,
+            object_id=obj.id,
+        ).first()
+        return reaction.reaction_type if reaction else None
