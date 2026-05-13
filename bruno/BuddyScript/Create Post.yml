@@ -11,12 +11,18 @@ http:
       value: Bearer {{access_token}}
       disabled: true
   body:
-    type: json
-    data: |-
-      {
-        "content": "This is content",
-         "is_public": true
-      }
+    type: multipart-form
+    data:
+      - name: content
+        type: text
+        value: This is formdata with img
+      - name: image
+        type: file
+        value:
+          - /home/tahnoon/Pictures/Screenshots/Screenshot_20260512_125559.png
+      - name: is_public
+        type: text
+        value: "true"
   auth: inherit
 
 settings:
