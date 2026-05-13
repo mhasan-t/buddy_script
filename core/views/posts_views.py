@@ -71,5 +71,5 @@ class PostCommentsListAPIView(generics.ListAPIView):
 
     def dispatch(self, request, *args, **kwargs):
         if not request.GET.get("cursor"):
-            return cache_page(10)(super().dispatch)(request, *args, **kwargs)
+            return cache_page(3)(super().dispatch)(request, *args, **kwargs)
         return super().dispatch(request, *args, **kwargs)
